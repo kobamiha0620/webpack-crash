@@ -1,5 +1,4 @@
 const path = require('path');
-
 const outputPath = path.resolve(__dirname, 'dist');
 
 module.exports = {
@@ -7,5 +6,12 @@ module.exports = {
  output: {
 	filename:'main.js',
 	path: outputPath
+},
+devServer: {       
+    static: {
+		directory: path.join(__dirname, "dist"),
+	  },
 }
+
+
 }
