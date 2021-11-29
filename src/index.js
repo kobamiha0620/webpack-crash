@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import './style.css'
+import logo from './logo.png'
 
 //import * as utilities  from './utilities'
 //名前の競合を避けるため
@@ -15,3 +16,6 @@ function component(){
 document.body.appendChild(component());
 document.body.classList.add('haikei');
 
+const image = new Image();
+image.src = logo
+document.body.appendChild(image);

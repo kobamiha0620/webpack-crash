@@ -26,7 +26,10 @@
     "webpack-dev-server": "^4.6.0"
   },
   "dependencies": {
+    "file-loader": "^6.2.0",
     "lodash": "^4.17.21",
-    "style-loader": "^3.3.1"
+    "sass-loader": "^12.3.0",
+    "style-loader": "^3.3.1",
+    "url-loader": "^4.1.1"
   }
 }

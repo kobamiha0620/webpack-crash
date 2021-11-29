@@ -15,6 +15,14 @@ module: {
 		'style-loader',
 		'css-loader'
 		]
+		},
+		{
+		test:/\.(jpe?g|png|gif|icon|svg)$/i,
+		loader: 'url-loader',
+		options:{
+		limit: 2048,
+		name: './image/[name].[ext]'		
+}
 		}
 	]
 
