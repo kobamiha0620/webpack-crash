@@ -1,10 +1,9 @@
 import _ from 'lodash'
+import './style.css'
+
 //import * as utilities  from './utilities'
 //名前の競合を避けるため
 
-import LION from './utilities'
-
-console.log(LION.say());
 
 function component(){
 	const element = document.createElement('div');
@@ -14,5 +13,5 @@ function component(){
 }
 
 document.body.appendChild(component());
-
+document.body.classList.add('haikei');
 
