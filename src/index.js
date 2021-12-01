@@ -1,8 +1,7 @@
 import _ from 'lodash'
 import './style.css'
+import './style.scss'
 import logo from './logo.png'
-
-//import * as utilities  from './utilities'
 //名前の競合を避けるため
 
 

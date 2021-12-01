@@ -1,0 +1,168 @@
+
+
+webpackの使い方
+
+webpackはnpmのモジュールバンドラーです。
+
+1. npmの初期化処理
+npm init -y
+
+2. 開発環境へwebpackをインストール
+npm install --save-dev webpack
+npm install --save-dev webpack-cli
+
+3. index.html / src/index.jsの作成
+
+4. Live-serverのインストール（必要か？）
+npm install --save-dev live-server
+
+5.　Lodash jsライブラりのダウンロード(これいらん)
+https://unpkg.com/lodash@4.17.21/lodash.min.js
+
+6. index.jsへlodashのインポート設定をする
+import _ from 'loadash'
+
+また、lodashのインストールをする
+npm install --savde lodash
+
+webpackでindex.jsからバンドルされた場合　main.jsとなるので
+index.htmlにlmain.jsの読み込みを設定する。
+
+
+コマンド
+npx webpack
+
+
+7. webpackに関する設定のjsを作成
+https://webpack.js.org/configuration/
+
+webpack.config.js
+
+module.export = {
+    entry:
+    //モジュールハンドルの対象ファイル
+
+    output:{
+        path : outPath;
+        filename:
+    }
+    //出力先設定
+}
+
+//絶対パスでの指定　node.jsでのパスモジュールを仕様しなさい
+const path = require('path');
+
+module.exports = {
+  //...
+  output: {
+    outPath: path.resolve(__dirname, 'dist/assets'),
+    //絶対パスを変換する　'dist/assets'
+  },
+};
+
+
+※もしwebpack.config.jsの場所が直下にない場合は、以下のコマンドを打てば自動的に設定してくれる。
+npx webpack --config webpack.config.js
+
+8. モードオプション　(production / development)
+npx webpack --mode production (本番環境)
+npx webpack --mode development (開発環境)
+
+
+9. webpack-devserverのインストールと設定
+npm install --save-dev webpack-dev-server
+npx webpack-dev-server 
+
+npx webpack-dev-server -h //help
+
+10. タスクの登録
+package.json "script"部分
+例：
+"start": "webpack-dev-server --open --mode development"
+npm run start
+
+11. 他のファイルから使用するにはexportの設定を行う
+例：src/utilities.js
+
+ export function Nijou(e){
+     ////みたいな
+
+ }
+ exportのデフォルト設定
+
+ export default class Lion {
+
+    static say(){
+        return 'ROAR'
+    }
+ }
+
+↓
+index.jsへ
+
+import LION from './utilities'
+console.log(LION.say()):
+
+import{ Nijou } from './utilities' //JavaScriptの場合は.jsの拡張子は省略可能。
+import * as utilities from './utilities' //utilities.jsに描かれた諸々
+import { NAME as NAME_OF_HAM } from './utilities' //同じ名前での変数の定義の場合でも大丈夫
+
+
+11. css-loader、style-loaderについて
+npm install --save-dev　css-loader style-loader
+moduleの登録 @ webpack.config.js
+module{
+    rules[
+        {
+            //どういったファイルに適応するのか
+            test:/¥.css$/, //正規表現
+            use:[
+                'style-loader',　//styleの適応をする
+                'css-loader' //CSSの読み込みをする
+                //loaderは下から読み込む。A chain can be in reverse order.
+                ]
+        }
+    ]
+}
+
+index.jsにimport
+import './style.css'
+
+12. url-loader 画像を読み込むLoader
+npm install --save-dev url-loader file-loader
+
+file-loader //imgを別ファイルで書き込む？url-loadernoオプよん
+module{
+    rules[
+        {
+            //どういったファイルに適応するのか
+            test:/¥.css$/, //正規表現
+            use:[
+                'style-loader',　//styleの適応をする
+                'css-loader' //CSSの読み込みをする
+                //loaderは下から読み込む。A chain can be in reverse order.
+                ]
+        },
+        {
+            test: /¥(jpe?g|png|gif|svg|ico)$/i, //画像の種類 i= 大文字の共用 jpg/jpeg eがあってもなくてもおk
+            loader: 'url-loader',
+
+            //file-loaderの有効か
+            options:{
+                limit: 2048, //2kbite 
+                name: '/images/[name].[ext]'
+            }   
+        }
+    ]
+}
+
+--------------------------------------------------------
+Git コマンド
+
+git add .
+git status
+git diff --cached -m
+git commit -m 'memo'
+git push -u origin HEAD
+git checkout - //masterブランチに戻る
+git merge --no-ff - -m 'text'
