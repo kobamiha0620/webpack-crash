@@ -147,16 +147,110 @@ module{
             test: /¥(jpe?g|png|gif|svg|ico)$/i, //画像の種類 i= 大文字の共用 jpg/jpeg eがあってもなくてもおk
             loader: 'url-loader',
 
-            //file-loaderの有効か
+            //file-loaderの有効化　
             options:{
-                limit: 2048, //2kbite 
-                name: '/images/[name].[ext]'
+                limit: 2048, //2kbite を超える画像は
+                name: '/images/[name].[ext]' //nameで指定した画像名に独立した
             }   
         }
     ]
+}   
+
+13.sass-loader node-sassのインストール
+npm install --save-dev sass-loader node-sass
+
+webpack.config.jsの設定
+SCSSファイルに対して、sass-loaderの設定をしたい。
+module{
+    rules[
+        //sass-loaderの設定追加部分
+        {
+            //どういったファイルに適応するのか
+            test:/¥.scss$/, //正規表現 scssファイるに対して
+            use:[
+                'style-loader',　//styleの適応をする
+                'css-loader', //CSSの読み込みをする
+                'scss-loader' //scssファイル
+                ]
+        },
+    ]
 }
 
+scssファイルの作成
+src/style.scss
+
+index.jsにてimport 
+import './style.scss'
 --------------------------------------------------------
+Plugin
+Babel<jsのトランスファイラー
+
+1. Bable / Reactのインストール
+https://babeljs.io/setup
+
+Build systems > webpack
+npm install --save-dev babel-loader @babel/core
+↑上記を有効化するために、webpcak.config.jsに追記
+{
+    test: /\.m?jsx?$/, //testに拡張子 対象がjs,jsxでも行けるように拡張子を変更x?
+    exclude: /node_modules/,　//トランスファイル除外設定（自分で作成したものだけ）
+    use: {
+        loader: "babel-loader",
+        options: {
+        presets: ['@babel/preset-env', '@babel/preset-react']
+        }
+    }
+}
+
+npm install @babel/preset-env --save-dev 　//2015以前の記法で動くよーに
+npm install --save-dev @babel/preset-react　//リアクトのjsxの記法用
+↑を有効にするにはbabel.config.jsonにて設定する必要がある
+ 上記ファイルに以下を記述
+ rules：{[直下]}
+{
+  "presets": [
+        "@babel/preset-env", //preset-envの有効化
+        "@babel/preset-react" //preset-reactの有効化
+        ]
+}
+
+Reactとreact-domのインストール  
+npm install react react-dom
+
+
+src/index.jsの変更
+※一旦、React用に書き換える。
+render 与える、付与する
+
+
+2. UIを作成するための諸々をインストールHTMLを生成するためのプラグイン
+npm install html-loader
+npm install --save-dev html-webpack-plugin //webpackのプラグインをインストール
+
+html-lodaerを使用するための設定をする。
+webpack-config.js
+rulesに追記
+{
+    test: /\.html$/,//対象の拡張子を設定
+    loader: 'html-loader'//loaderの設定
+}
+
+プラグインの設定 (webpack-config.js)
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+定義して、
+
+//プラグインの設定
+plugins:[
+    new HtmlWebpackPlugin({
+        template: './src/index.html',  //雛形ファイル
+        filename: './index.html' //雛形ファイルを最終的に出力先と出力名
+    })
+]
+-------------
+雛形ファイルの作成：
+
+--------------------------------------------------------
+
 Git コマンド
 
 git add .
@@ -166,3 +260,5 @@ git commit -m 'memo'
 git push -u origin HEAD
 git checkout - //masterブランチに戻る
 git merge --no-ff - -m 'text'
+//フォルダの移動
+git mv dist/index.html src
